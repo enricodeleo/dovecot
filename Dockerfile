@@ -1,7 +1,7 @@
-FROM alpine:3.16
+FROM alpine:3.19
 
 RUN apk update && \
-    apk add dovecot dovecot-pigeonhole-plugin dovecot-tools && \
+    apk add dovecot dovecot-pigeonhole-plugin && \
     rm -rf /var/cache/apk/* && \
     mkdir -p /var/lib/dovecot && \
     chmod 777 /var/lib/dovecot
