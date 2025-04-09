@@ -11,4 +11,4 @@ COPY config/conf.d/10-logging.conf /etc/dovecot/conf.d/10-logging.conf
 EXPOSE 143/tcp
 EXPOSE 993/tcp
 
-ENTRYPOINT ["/usr/sbin/dovecot", "-F"]
+CMD ["/usr/sbin/dovecot", "-F"]
