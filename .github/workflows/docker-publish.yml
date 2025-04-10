@@ -35,7 +35,7 @@ jobs:
           tags: |
             ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
             ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.ref_name }}
+          platforms: linux/amd64,linux/arm64/v8
 
       - name: Image digest
         run: echo "Image digest is ${{ steps.build.outputs.digest }}"
-
