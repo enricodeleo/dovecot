@@ -5,23 +5,19 @@ set -e
 USER_UID=${USER_UID:-1000}
 USER_GID=${USER_GID:-1000}
 
-# Controlla se è possibile modificare i permessi (ambiente rootless o no)
+# Crea utente IMAP (se non esiste)
+if ! id -u dovecotuser >/dev/null 2>&1; then
+    adduser -D -u "$USER_UID" -G dovecotgroup dovecotuser
+fi
+
+# Verifica se possiamo modificare i permessi
 if touch /test_root_perms 2>/dev/null; then
     rm /test_root_perms
 
-    # Creazione gruppo e utente solo se abbiamo i permessi
-    if ! getent group dovecotgroup >/dev/null; then
-        addgroup -g "$USER_GID" dovecotgroup
-    fi
-
-    if ! getent passwd dovecotuser >/dev/null; then
-        adduser -D -u "$USER_UID" -G dovecotgroup dovecotuser
-    fi
-
-    # Modifica permessi
+    # Modifica permessi delle directory
     chown -R dovecotuser:dovecotgroup /var/lib/dovecot /mail
 
-    # Esecuzione come dovecotuser
+    # Esegui come l'utente dovecotuser
     exec su-exec dovecotuser "$@"
 else
     # Esegui direttamente in modalità rootless
