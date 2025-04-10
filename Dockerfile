@@ -4,8 +4,8 @@ RUN apk update && \
     apk add --no-cache dovecot dovecot-pigeonhole-plugin su-exec && \
     rm -rf /var/cache/apk/*
 
-RUN mkdir -p /var/lib/dovecot /mail && \
-    chmod 770 /var/lib/dovecot /mail
+RUN mkdir -p /var/run/dovecot/login /var/lib/dovecot && \
+    chmod -R 777 /var/run/dovecot /var/lib/dovecot
 
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN chmod +x /usr/local/bin/entrypoint.sh
